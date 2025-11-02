@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "ShotAI - AI Image Generator",
+  "version": "1.0.0",
+  "description": "Generate AI images on any webpage with multiple models. Get shareable links instantly.",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "scripting",
+    "notifications",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://shotai.org/*",
+    "http://localhost:3000/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Open ShotAI Side Panel",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "src/sidebar/index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content/index.tsx"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "open-sidebar": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+G",
+        "mac": "Command+Shift+G"
+      },
+      "description": "Open ShotAI sidebar"
+    },
+    "generate-from-selection": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Generate image with current selection"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["src/sidebar/index.html", "assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "externally_connectable": {
+    "matches": [
+      "https://shotai.org/*",
+      "http://localhost:3000/*"
+    ]
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
