@@ -1,0 +1,60 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /mnt/j/workspace/shotai-chrome-extension/.claude/hooks/mcp-security-scan.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__gemini",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /mnt/j/workspace/shotai-chrome-extension/.claude/hooks/gemini-context-injector.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /mnt/j/workspace/shotai-chrome-extension/.claude/hooks/subagent-context-injector.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /mnt/j/workspace/shotai-chrome-extension/.claude/hooks/notify.sh input"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /mnt/j/workspace/shotai-chrome-extension/.claude/hooks/notify.sh complete"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Read(//mnt/j/workspace/**)"
+    ]
+  }
+}
