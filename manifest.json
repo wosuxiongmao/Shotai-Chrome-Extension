@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "ShotAI - AI Image Generator",
+  "name": "ShotAI-Extension - Compare AI image models with one prompt",
   "version": "1.0.0",
-  "description": "Generate AI images on any webpage with multiple models. Get shareable links instantly.",
+  "description": "Generate AI images on any webpage with multiple models. ",
   "permissions": [
     "contextMenus",
     "storage",
@@ -12,9 +12,7 @@
     "sidePanel"
   ],
   "host_permissions": [
-    "https://shotai.org/*",
-    "http://localhost:3000/*",
-    "https://*/*"
+    "https://shotai.org/*"
   ],
   "background": {
     "service_worker": "src/background/index.ts",
@@ -39,13 +37,6 @@
     }
   ],
   "commands": {
-    "open-sidebar": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+G",
-        "mac": "Command+Shift+G"
-      },
-      "description": "Open ShotAI sidebar"
-    },
     "generate-from-selection": {
       "suggested_key": {
         "default": "Ctrl+Shift+S",

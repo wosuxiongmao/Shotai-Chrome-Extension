@@ -24,7 +24,6 @@ export default function SidebarContainer({ onClose }: SidebarContainerProps) {
     windowId?: number;
   }>>([]);
   const [activeRequestId, setActiveRequestId] = useState<string | null>(null);
-  const [isReady, setIsReady] = useState(false);
 
   const queryClient = useMemo(
     () =>
@@ -52,7 +51,6 @@ export default function SidebarContainer({ onClose }: SidebarContainerProps) {
       } else {
         syncQueue(response?.queue);
       }
-      setIsReady(true);
     });
   }, [syncQueue]);
 
@@ -126,7 +124,6 @@ export default function SidebarContainer({ onClose }: SidebarContainerProps) {
           <Sidebar
             activeRequest={activeRequest || undefined}
             queueLength={queue.length}
-            isReady={isReady}
             onRequestAcknowledged={acknowledgeRequest}
             onClose={handleClose}
           />

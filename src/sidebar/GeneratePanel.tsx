@@ -41,7 +41,6 @@ interface GeneratePanelProps {
     source?: string;
   };
   queueLength: number;
-  isReady: boolean;
   onRequestAcknowledged: (requestId: string) => void;
   credits?: CreditsInfo; // Passed from parent to avoid redundant useAuth calls
 }
@@ -49,7 +48,6 @@ interface GeneratePanelProps {
 export default function GeneratePanel({ 
   activeRequest,
   queueLength,
-  isReady,
   onRequestAcknowledged,
   credits
 }: GeneratePanelProps) {
@@ -265,19 +263,13 @@ export default function GeneratePanel({
 
     lastAppliedRequestIdRef.current = activeRequest.requestId;
 
-    if (typeof activeRequest.prompt === 'string') {
+    // 只在有prompt时才更新，避免清空用户输入的内容
+    if (typeof activeRequest.prompt === 'string' && activeRequest.prompt.trim()) {
       setPrompt(activeRequest.prompt);
-    } else {
-      setPrompt('');
     }
 
-    setReferenceImages((prev) => {
-      if (prev.length > 0) {
-        prev.forEach(revokeReferenceImage);
-      }
-      return [];
-    });
-
+    // 不清空现有图片，直接追加新图片
+    // addReferenceImage 函数内部已有去重逻辑
     const { referenceImageDataUrl, referenceImageUrl } = activeRequest;
 
     if (referenceImageDataUrl && referenceImageDataUrl.trim()) {
@@ -464,12 +456,6 @@ export default function GeneratePanel({
   
   return (
     <div className="p-6 space-y-6 relative">
-      {/* {isReady && !hasActiveRequest && prompt.trim().length === 0 && referenceImages.length === 0 && (
-        <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-600">
-          Use shortcuts or context menu to quickly fill text and images from webpages here.
-        </div>
-      )} */}
-
       {hasActiveRequest && (
         <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-xs text-blue-700 flex items-center justify-between">
           <span>Processing shortcut action...</span>

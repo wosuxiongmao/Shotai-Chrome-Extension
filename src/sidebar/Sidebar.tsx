@@ -22,7 +22,6 @@ type SidebarRequest = {
 interface SidebarProps {
   activeRequest?: SidebarRequest;
   queueLength: number;
-  isReady: boolean;
   onRequestAcknowledged: (requestId: string) => void;
   onClose: () => void;
 }
@@ -30,7 +29,6 @@ interface SidebarProps {
 export default function Sidebar({ 
   activeRequest,
   queueLength,
-  isReady,
   onRequestAcknowledged,
   onClose 
 }: SidebarProps) {
@@ -77,7 +75,6 @@ export default function Sidebar({
         <GeneratePanel
           activeRequest={activeRequest}
           queueLength={queueLength}
-          isReady={isReady}
           credits={credits}
           onRequestAcknowledged={onRequestAcknowledged}
         />

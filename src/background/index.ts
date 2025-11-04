@@ -23,7 +23,6 @@ type PendingSidebarData = {
 const selectionCache = new Map<number, { text: string; timestamp: number }>();
 const SELECTION_CACHE_TTL_MS = 5000;
 
-const hoveredImageCache = new Map<number, { src: string; timestamp: number; elementId?: string }>();
 
 let lastGeneratedRequestId = Date.now();
 const REQUEST_QUEUE_STORAGE_KEY = 'shotaiSidebarQueue';
@@ -172,33 +171,15 @@ function updateSelectionCache(tabId: number, text: string) {
   });
 }
 
-// Note: Image hover tracking is kept for potential future features
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function updateHoveredImageCache(tabId: number, payload: { src?: string; elementId?: string }) {
-  const normalized = typeof payload.src === 'string' ? payload.src.trim() : '';
-  if (!normalized) {
-    hoveredImageCache.delete(tabId);
-    return;
-  }
-
-  hoveredImageCache.set(tabId, {
-    src: normalized,
-    elementId: payload.elementId,
-    timestamp: Date.now()
-  });
-}
 
 chrome.tabs.onRemoved.addListener((tabId) => {
   selectionCache.delete(tabId);
-  hoveredImageCache.delete(tabId);
   void clearQueueForTab(tabId);
 });
 
 chrome.tabs.onReplaced.addListener((addedTabId, removedTabId) => {
   selectionCache.delete(removedTabId);
   selectionCache.delete(addedTabId);
-  hoveredImageCache.delete(removedTabId);
-  hoveredImageCache.delete(addedTabId);
 });
 
 // Try to open side panel, fallback to inline sidebar only when necessary
@@ -220,18 +201,18 @@ async function ensureSidebarForRequest(tab: chrome.tabs.Tab, request: PendingSid
   } catch (error) {
     console.error('[Background] Failed to open side panel:', error);
 
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    if (errorMessage.includes('sidePanel.open()') && errorMessage.includes('user gesture')) {
-      // Don't show inline sidebar - just notify user to use the icon or sidebar shortcut
-      await notifyUser(tabId, 'Please click the ShotAI icon or use Ctrl+Shift+G to open the sidebar.', {
-        level: 'warning',
-        durationMs: 5000
-      });
-    } else {
-      await notifyUser(tabId, 'Could not open the ShotAI panel. Try again in a moment.', {
-        level: 'error'
-      });
-    }
+    // const errorMessage = error instanceof Error ? error.message : String(error);
+    // if (errorMessage.includes('sidePanel.open()') && errorMessage.includes('user gesture')) {
+    //   // Don't show inline sidebar - just notify user to use the icon or sidebar shortcut
+    //   await notifyUser(tabId, 'Please click the ShotAI icon or use Ctrl+Shift+G to open the sidebar.', {
+    //     level: 'warning',
+    //     durationMs: 5000
+    //   });
+    // } else {
+    //   await notifyUser(tabId, 'Could not open the ShotAI panel. Try again in a moment.', {
+    //     level: 'error'
+    //   });
+    // }
   }
 }
 
@@ -553,25 +534,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return;
   }
 
-  if (message?.type === 'SHOTAI_HOVERED_IMAGE_UPDATE') {
-    const tabId = sender.tab?.id;
-    if (typeof tabId === 'number') {
-      const incomingSrc = typeof message.payload?.src === 'string' ? message.payload.src : '';
-      const elementId =
-        typeof message.payload?.elementId === 'string' ? message.payload.elementId : undefined;
-      updateHoveredImageCache(tabId, { src: incomingSrc, elementId });
-      if (incomingSrc) {
-        console.log('[Background] Hovered image updated:', {
-          tabId,
-          length: incomingSrc.length,
-          preview: incomingSrc.slice(0, 120),
-          elementId
-        });
-      }
-    }
-    return;
-  }
-
+  
   if (message?.type === 'SHOTAI_QUEUE_GET') {
     void (async () => {
       await ensureQueueLoaded();

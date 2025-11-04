@@ -1,12 +1,12 @@
 # ShotAI Chrome Extension
 
-Generate AI images on any webpage with multiple models. Get shareable links instantly.
+Generate AI images on any webpage with multiple models. 
 
 ## Features
 
 - 🎨 **Multi-Model Generation**: Compare results from Midjourney V7, FLUX, Imagen4, and more
 - ⚡ **Quick Access**: Right-click menu, keyboard shortcut (Ctrl+Shift+S), or floating button
-- When used with [https://shotai.org](https://shotai.org/), you can quickly copy text into prmpt and generate photos of multiple models!
+- When used with [https://shotai.org](https://shotai.org/), you can quickly copy text into prmpt and generate  image of multiple models!
 
 ## Development
 

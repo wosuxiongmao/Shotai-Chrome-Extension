@@ -40,9 +40,5 @@ export const EXTENSION_CONFIG = {
   SIDEBAR_WIDTH: 400,
   FLOATING_BUTTON_POSITION: { bottom: 20, right: 20 },
   
-  // Keyboard shortcuts
-  SHORTCUTS: {
-    OPEN_SIDEBAR: 'Ctrl+Shift+G',
-    OPEN_SIDEBAR_MAC: 'Command+Shift+G',
-  },
+
 };

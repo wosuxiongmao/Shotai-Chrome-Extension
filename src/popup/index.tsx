@@ -87,12 +87,7 @@ function Popup() {
           <span>Settings</span>
         </button>
       </div>
-      
-      <div className="mt-4 text-center">
-        <p className="text-xs text-gray-500">
-          Press <kbd className="px-1 py-0.5 bg-gray-100 rounded">Ctrl+Shift+G</kbd> for quick access
-        </p>
-      </div>
+    
     </div>
   );
 }

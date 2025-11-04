@@ -32,7 +32,6 @@ const queryClient = new QueryClient({
 function App() {
   const [queue, setQueue] = useState<SidebarRequest[]>([]);
   const [activeRequestId, setActiveRequestId] = useState<string | null>(null);
-  const [isReady, setIsReady] = useState(false);
 
   const syncQueue = useCallback((incomingQueue?: SidebarRequest[]) => {
     if (Array.isArray(incomingQueue)) {
@@ -47,7 +46,6 @@ function App() {
       } else {
         syncQueue(response?.queue);
       }
-      setIsReady(true);
     });
 
     const handleRuntimeMessage = (message: any) => {
@@ -100,7 +98,6 @@ function App() {
       <Sidebar 
         activeRequest={activeRequest || undefined}
         queueLength={queue.length}
-        isReady={isReady}
         onRequestAcknowledged={acknowledgeRequest}
         onClose={() => window.close()} 
       />
