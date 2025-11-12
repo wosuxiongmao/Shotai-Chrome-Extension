@@ -11,7 +11,8 @@
     "sidePanel"
   ],
   "host_permissions": [
-    "https://shotai.org/*"
+    "https://shotai.org/*",
+    "https://localhost:3000/*"
   ],
   "background": {
     "service_worker": "src/background/index.ts",

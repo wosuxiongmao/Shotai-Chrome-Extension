@@ -7,6 +7,7 @@ import { X } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import GeneratePanel from './GeneratePanel';
 import LoginPrompt from './LoginPrompt';
+import UserMenu from './UserMenu';
 
 type SidebarRequest = {
   requestId: string;
@@ -52,24 +53,32 @@ export default function Sidebar({
   return (
     <div className="w-full h-full bg-white flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
-        <div className="flex items-center space-x-2">
-          <img
-            src="/icons/icon-48.png"
-            alt="ShotAI logo"
-            className="h-8 w-8"
-          />
-          <h1 className="text-xl font-bold text-gray-900">ShotAI</h1>
+      <div className="border-b">
+        <div className="flex items-center justify-between px-3 py-2">
+          <div className="flex items-center space-x-3">
+            <img
+              src="/icons/icon-48.png"
+              alt="ShotAI logo"
+              className="h-6 w-6"
+            />
+            <h1 className="text-lg font-bold text-gray-900">ShotAI</h1>
+          </div>
+
+          {/* User Menu */}
+          <div className="flex-shrink-0">
+            <UserMenu />
+          </div>
+
+          <button
+            onClick={onClose}
+            className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+            aria-label="Close sidebar"
+          >
+            <X className="w-4 h-4 text-gray-600" />
+          </button>
         </div>
-        <button
-          onClick={onClose}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          aria-label="Close sidebar"
-        >
-          <X className="w-5 h-5 text-gray-600" />
-        </button>
       </div>
-      
+
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
         <GeneratePanel

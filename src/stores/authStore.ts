@@ -66,13 +66,46 @@ export const useAuthStore = create<AuthState>((set) => ({
   
   // Logout
   logout: async () => {
-    await chrome.storage.local.remove(['authToken', 'userInfo']);
-    set({ 
-      token: null, 
-      user: null, 
-      isAuthenticated: false,
-      error: null
-    });
+    try {
+      // 1. 清理chrome.storage中的敏感数据
+      await chrome.storage.local.remove([
+        'authToken',
+        'userInfo',
+        'shotaiSidebarQueue'  // 清理用户请求队列
+      ]);
+
+      // 2. 清理APIClient中的token
+      apiClient.clearToken();
+
+      // 3. 重置Zustand状态为初始状态
+      set({
+        token: null,
+        user: null,
+        isAuthenticated: false,
+        error: null,
+        isLoading: false
+      });
+
+      // 4. 广播登出事件给所有监听的组件
+      chrome.runtime.sendMessage({
+        type: 'SHOTAI_AUTH_STATUS_CHANGED',
+        payload: { token: null, user: null }
+      }).catch(() => {
+        // 忽略"没有监听器"的错误
+        console.log('[authStore] No listeners for auth status change');
+      });
+
+    } catch (error) {
+      console.error('[authStore] Logout failed:', error);
+      // 即使出错也要重置状态
+      set({
+        token: null,
+        user: null,
+        isAuthenticated: false,
+        error: 'Logout failed',
+        isLoading: false
+      });
+    }
   },
   
   // Check if user is authenticated (load from storage)
