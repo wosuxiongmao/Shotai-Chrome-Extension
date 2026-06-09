@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "ShotAI-Extension - Compare AI image models with one prompt",
-  "version": "1.0.0",
-  "description": "Generate AI images on any webpage with multiple models. ",
+  "version": "1.0.1",
+  "description": "You can quickly copy prompts and upload images on any web page to conveniently use shotAI ",
   "permissions": [
     "contextMenus",
     "storage",
