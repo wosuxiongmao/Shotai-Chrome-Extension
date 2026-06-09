@@ -38,7 +38,7 @@ export default function LoginPrompt({ onClose }: LoginPromptProps) {
         
         {/* Description */}
         <p className="text-gray-600 mb-6">
-          Generate AI images on any webpage with multiple models. 
+          You can quickly copy prompts and upload images on any web page to conveniently use shotAI 
           Sign in to get started.
         </p>
         

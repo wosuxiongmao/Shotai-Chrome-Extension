@@ -1,4 +1,21 @@
 {
+  "permissions": {
+    "allow": [
+      "Read(//mnt/j/workspace/**)",
+      "Bash(find /mnt/j/workspace/shotai-chrome-extension/.claude/hooks -name \"*.sh\" -exec sed -i 's/\\r$//' {} ;)",
+      "WebSearch",
+      "Bash(convert \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128.png\" -resize 128x128 \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128.png\")",
+      "Bash(python3 -c \"\nfrom PIL import Image\nimg = Image.open(''/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128.png'')\nimg_resized = img.resize((128, 128), Image.Resampling.LANCZOS)\nimg_resized.save(''/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128.png'')\nprint(''Icon resized to 128x128 successfully'')\n\")",
+      "Bash(ffmpeg -i \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128.png\" -vf scale=128:128 -y \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128-temp.png\")",
+      "Bash(mv \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128-temp.png\" \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128.png\")",
+      "Bash(ffmpeg -i \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128.png\" -vf scale=128:128 -frames:v 1 -y \"/mnt/j/workspace/shotai-chrome-extension/public/icons/icon-128-temp.png\")",
+      "Bash(npx tsc --noEmit)",
+      "Bash(ffmpeg -i \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-login.png\" -vf scale=1280:800 -frames:v 1 -y \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-login-temp.png\")",
+      "Bash(ffmpeg -i \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-copy text.png\" -vf scale=1280:800 -frames:v 1 -y \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-copy text-temp.png\")",
+      "Bash(ffmpeg -i \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-upload image.png\" -vf scale=1280:800 -frames:v 1 -y \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-upload image-temp.png\")",
+      "Bash(mv \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-upload image-temp.png\" \"/mnt/j/workspace/shotai-chrome-extension/public/icons/shotai-ext-upload image.png\")"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -50,11 +67,6 @@
           }
         ]
       }
-    ]
-  },
-  "permissions": {
-    "allow": [
-      "Read(//mnt/j/workspace/**)"
     ]
   }
 }

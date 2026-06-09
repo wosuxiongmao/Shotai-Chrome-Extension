@@ -1,6 +1,6 @@
 # ShotAI Chrome Extension
 
-Generate AI images on any webpage with multiple models. 
+You can quickly copy prompts and upload images on any web page to conveniently use shotAI 
 
 ## Features
 
